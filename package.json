@@ -1,0 +1,48 @@
+{
+  "name": "hiveworld",
+  "version": "0.0.1",
+  "description": "An incremental game that places you in the shoes of a street urchin in a world ruled by megacorps.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jakofranko/hiveworld.git"
+  },
+  "keywords": [
+    "incremental",
+    "game",
+    "merchant.js",
+    "react",
+    "webpack"
+  ],
+  "author": "Jake Franklin <jakofranko@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakofranko/hiveworld/issues"
+  },
+  "homepage": "https://github.com/jakofranko/hiveworld#readme",
+  "dependencies": {
+    "css-loader": "^2.1.0",
+    "immutable": "^4.0.0-rc.12",
+    "macian": "^1.0.1",
+    "merchant.js": "^1.0.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-hot-loader": "^4.7.1",
+    "style-loader": "^0.23.1",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "@babel/preset-env": "^7.3.4",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
+  }
+}
