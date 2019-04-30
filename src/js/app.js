@@ -1,6 +1,6 @@
 import React from 'react';
 import { hot } from "react-hot-loader";
-import * as m from 'merchant.js';
+import { sum } from 'merchant.js';
 import { Map } from "immutable";
 import currencies from './currencies';
 import { MagicSword } from './pouch';
