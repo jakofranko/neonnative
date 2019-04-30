@@ -3,7 +3,10 @@ import { hot } from "react-hot-loader";
 import { sum } from 'merchant.js';
 import { Map } from "immutable";
 import currencies from './currencies';
-import { MagicSword } from './pouch';
+import upkeep from './upkeep';
+import processRules from './rules';
+
+import Stats from './stats';
 
 class App extends React.Component {
     constructor(props) {
@@ -11,80 +14,59 @@ class App extends React.Component {
 
         this.state = {
             ledgers: [],
-            wallet: Map({ [currencies.power]: 10 }),
-            currentPowerLevel: 5
+            stats: Map(),
+            chars: Map({
+                exhaustMax: 10,
+                exhaustMin: -10,
+                hungerMax: 10,
+                hungerMin: -10,
+            }),
+            wallet: Map(),
+            sleeping: false
         }
 
         this.update = this.update.bind(this);
-        this.addExhaustion = this.addExhaustion.bind(this);
-        this.addHunger = this.addHunger.bind(this);
-        this.buyMagicSword = this.buyMagicSword.bind(this);
-        this.sumLedgersToWallet = this.sumLedgersToWallet.bind(this);
+        this.getItems = this.getItems.bind(this);
+        this.goToSleep = this.goToSleep.bind(this);
 
-        setInterval(this.update, 2000);
+        setInterval(this.update, 50);
     }
 
     update() {
+        let uk = upkeep.default;
+        let sleeping = this.state.sleeping;
+
+        if (sleeping && this.state.stats.get(currencies.exhaustion) >= this.state.chars.get('exhaustMax'))
+            sleeping = false;
+        else if (sleeping)
+            uk = upkeep.sleeping;
+
         this.setState({
-            wallet: m.sum(this.state.wallet, m.effects([MagicSword], this.state.wallet, this.state))
+            stats: sum(this.state.stats, uk),
+            sleeping
         });
     }
 
-    addExhaustion(e) {
-        e.preventDefault();
-        const ledger = Map({ [currencies.exhaustion]: Math.random() });
-        this.setState(currentState => {
-            currentState.ledgers.push(ledger);
-            return {
-                ledgers: currentState.ledgers
-            };
-        })
-    }
-
-    addHunger(e) {
-        e.preventDefault();
-        const ledger = Map({ [currencies.hunger]: Math.random() });
-        this.setState(currentState => {
-            currentState.ledgers.push(ledger);
-            return {
-                ledgers: currentState.ledgers
-            };
-        })
-    }
-
-    buyMagicSword(e) {
-        e.preventDefault();
-        this.setState({
-            wallet: m.add(MagicSword, m.buy(MagicSword, this.state.wallet, this.state))
+    getItems() {
+        console.log(currencies);
+        return this.state.wallet.filter(item => {
+            console.log(item);
         });
     }
 
-    sumLedgersToWallet() {
+    goToSleep(e) {
+        e.preventDefault();
         this.setState({
-            wallet: m.sum(this.state.wallet, ...this.state.ledgers)
-        }, () => this.setState({
-            ledgers: []
-        }));
+            sleeping: true
+        });
     }
 
     render() {
-        const keys = this.state.wallet.keys();
-        let items = [];
-        for (let key of keys) {
-            items.push(<p key={key}>{key}: {this.state.wallet.get(key)}</p>);
-        }
         return (
             <div>
-                <dl>
-                    <dt># of ledgers</dt>
-                    <dd>{this.state.ledgers.length}</dd>
-                </dl>
-                <h2>wallet</h2>
-                {items}
-                <button onClick={this.addExhaustion}>Add Exhuastion</button>
-                <button onClick={this.addHunger}>Add Hunger</button>
-                <button onClick={this.sumLedgersToWallet}>Add Current Ledgers to Wallet</button>
-                <button onClick={this.buyMagicSword}>Buy Magic Sword</button>
+                <Stats stats={this.state.stats} />
+                <button>Scrounge</button>
+                <button onClick={this.goToSleep}>Go to Sleep</button>
             </div>
         );
     }
