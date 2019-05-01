@@ -7,21 +7,21 @@ import upkeep from './upkeep';
 import processRules from './rules';
 
 import Stats from './stats';
+import Actions from './actions';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            ledgers: [],
-            stats: Map(),
-            chars: Map({
+            ledgers: [],  // [wallet]
+            stats: Map(), // wallet
+            chars: Map({  // wallet
                 exhaustMax: 10,
                 exhaustMin: -10,
                 hungerMax: 10,
                 hungerMin: -10,
             }),
-            wallet: Map(),
             sleeping: false
         }
 
@@ -40,6 +40,8 @@ class App extends React.Component {
             sleeping = false;
         else if (sleeping)
             uk = upkeep.sleeping;
+        else if (this.state.stats.get(currencies.exhaustion) <= this.state.chars.get('exhaustMin'))
+            sleeping = true;
 
         this.setState({
             stats: sum(this.state.stats, uk),
@@ -65,8 +67,7 @@ class App extends React.Component {
         return (
             <div>
                 <Stats stats={this.state.stats} />
-                <button>Scrounge</button>
-                <button onClick={this.goToSleep}>Go to Sleep</button>
+                <Actions stats={this.state.stats} goToSleep={this.goToSleep} sleeping={this.state.sleeping} />
             </div>
         );
     }
