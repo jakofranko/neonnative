@@ -14,18 +14,21 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            ledgers: [],  // [wallet]
-            stats: Map(), // wallet
-            chars: Map({  // wallet
+            ledgers: [],      // [wallet]
+            stats: Map(),     // wallet
+            chars: Map({      // wallet
                 exhaustMax: 10,
                 exhaustMin: -10,
                 hungerMax: 10,
                 hungerMin: -10,
             }),
+            inventory: Map(), // wallet
             sleeping: false
         }
 
         this.update = this.update.bind(this);
+        this.updateStats = this.updateStats.bind(this);
+        this.updateInventory = this.updateInventory.bind(this);
         this.getItems = this.getItems.bind(this);
         this.goToSleep = this.goToSleep.bind(this);
 
@@ -63,11 +66,29 @@ class App extends React.Component {
         });
     }
 
+    updateStats(ledgers) {
+        this.setState({
+            stats: sum(this.state.stats, ...ledgers)
+        });
+    }
+
+    updateInventory(ledgers) {
+        this.setState({
+            inventory: sum(this.state.inventory, ...ledgers)
+        });
+    }
+
     render() {
         return (
             <div>
                 <Stats stats={this.state.stats} />
-                <Actions stats={this.state.stats} goToSleep={this.goToSleep} sleeping={this.state.sleeping} />
+                <Actions
+                    stats={this.state.stats}
+                    inventory={this.state.inventory}
+                    updateInventory={this.updateInventory}
+                    updateStats={this.updateStats}
+                    goToSleep={this.goToSleep}
+                    sleeping={this.state.sleeping} />
             </div>
         );
     }

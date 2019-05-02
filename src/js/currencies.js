@@ -1,7 +1,6 @@
 const exhaustion = "EXHAUSTION";
 const hunger = "HUNGER";
 const credits = "CREDITS";
-const gold = "GOLD";
-const power = "POWER";
+const food = "FOOD";
 
-export default { exhaustion, hunger, credits, gold, power };
+export default { exhaustion, hunger, credits, food };

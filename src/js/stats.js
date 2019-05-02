@@ -7,7 +7,7 @@ class Stats extends React.Component {
             return (
                 <tr key={key}>
                     <td>{key}</td>
-                    <td>{this.props.stats.get(key).toFixed(4)}</td>
+                    <td>{this.props.stats.get(key).toFixed(2)}</td>
                 </tr>
             );
         });
