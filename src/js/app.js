@@ -3,7 +3,6 @@ import { hot } from "react-hot-loader";
 import { sum } from 'merchant.js';
 import { Map } from "immutable";
 import currencies from './currencies';
-import upkeep from './upkeep';
 import processRules from './rules';
 
 import Stats from './stats';
@@ -23,7 +22,10 @@ class App extends React.Component {
                 hungerMin: -10,
             }),
             inventory: Map(), // wallet
-            sleeping: false
+            condition: {
+                sleeping: false
+            },
+            lost: false
         }
 
         this.update = this.update.bind(this);
@@ -32,28 +34,20 @@ class App extends React.Component {
         this.getItems = this.getItems.bind(this);
         this.goToSleep = this.goToSleep.bind(this);
 
-        setInterval(this.update, 50);
+        this.loopId = setInterval(this.update, 50);
     }
 
     update() {
-        let uk = upkeep.default;
-        let sleeping = this.state.sleeping;
-
-        if (sleeping && this.state.stats.get(currencies.exhaustion) >= this.state.chars.get('exhaustMax'))
-            sleeping = false;
-        else if (sleeping)
-            uk = upkeep.sleeping;
-        else if (this.state.stats.get(currencies.exhaustion) <= this.state.chars.get('exhaustMin'))
-            sleeping = true;
+        let { upkeep, condition, lost } = processRules(this.state);
 
         this.setState({
-            stats: sum(this.state.stats, uk),
-            sleeping
+            stats: sum(this.state.stats, upkeep),
+            condition,
+            lost
         });
     }
 
     getItems() {
-        console.log(currencies);
         return this.state.wallet.filter(item => {
             console.log(item);
         });
@@ -61,8 +55,10 @@ class App extends React.Component {
 
     goToSleep(e) {
         e.preventDefault();
-        this.setState({
-            sleeping: true
+        this.setState(currentState => {
+            return {
+                condition: Object.assign(currentState.condition, { sleeping: true })
+            };
         });
     }
 
@@ -79,16 +75,25 @@ class App extends React.Component {
     }
 
     render() {
+        const lost = this.state.lost;
+        if (lost) clearInterval(this.loopId);
+
         return (
             <div>
-                <Stats stats={this.state.stats} />
-                <Actions
-                    stats={this.state.stats}
-                    inventory={this.state.inventory}
-                    updateInventory={this.updateInventory}
-                    updateStats={this.updateStats}
-                    goToSleep={this.goToSleep}
-                    sleeping={this.state.sleeping} />
+                {lost
+                    ? <h1>YOU LOSE</h1>
+                    :
+                    <div>
+                        <Stats stats={this.state.stats} />
+                        <Actions
+                            stats={this.state.stats}
+                            inventory={this.state.inventory}
+                            updateInventory={this.updateInventory}
+                            updateStats={this.updateStats}
+                            goToSleep={this.goToSleep}
+                            sleeping={this.state.condition.sleeping} />
+                    </div>
+                }
             </div>
         );
     }

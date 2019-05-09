@@ -9,7 +9,8 @@ function scroungeEvent() {
         foodAmt++;
 
     return Map({
-        [currencies.food]: foodAmt
+        [currencies.food]: foodAmt,
+        [currencies.exhaustion]: -0.25
     });
 }
 

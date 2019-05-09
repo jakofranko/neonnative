@@ -32,7 +32,7 @@ class Actions extends React.Component {
 
                 {
                     hasFood ?
-                    <button onClick={this.eat}>Eat {currencies.food}: {this.props.inventory.get(currencies.food)}</button>
+                    <button onClick={this.eat} disabled={this.props.sleeping ? 'disabled' : null}>Eat {currencies.food}: {this.props.inventory.get(currencies.food)}</button>
                     : null
                 }
             </div>
