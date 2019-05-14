@@ -1,5 +1,5 @@
 {
-  "name": "hiveworld",
+  "name": "neonnative",
   "version": "0.0.1",
   "description": "An incremental game that places you in the shoes of a street urchin in a world ruled by megacorps.",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/jakofranko/hiveworld.git"
+    "url": "git+ssh://git@github.com/jakofranko/neonnative.git"
   },
   "keywords": [
     "incremental",
@@ -22,9 +22,9 @@
   "author": "Jake Franklin <jakofranko@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jakofranko/hiveworld/issues"
+    "url": "https://github.com/jakofranko/neonnative/issues"
   },
-  "homepage": "https://github.com/jakofranko/hiveworld#readme",
+  "homepage": "https://github.com/jakofranko/neonnative#readme",
   "dependencies": {
     "css-loader": "^2.1.0",
     "immutable": "^4.0.0-rc.12",
