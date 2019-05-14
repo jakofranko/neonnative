@@ -1,24 +1,36 @@
 import { Map } from 'immutable';
 import currencies from './currencies';
 
-function scroungeEvent() {
-    let foodAmt = 0;
-    if (Math.random() > 0.5)
-        foodAmt++;
-    if (Math.random() > 0.7)
-        foodAmt++;
+class Events {
+    static scrounge() {
+        let foodAmt = 0;
+        if (Math.random() > 0.5)
+            foodAmt++;
+        if (Math.random() > 0.7)
+            foodAmt++;
 
-    return Map({
-        [currencies.food]: foodAmt,
-        [currencies.exhaustion]: -0.25
-    });
-}
+        return {
+            inventory: Map({ [currencies.food]: foodAmt }),
+            stats: Map({ [currencies.exhaustion]: -0.25 })
+        };
+    }
 
-function eatEvent() {
-    return {
-        foodTransaction: Map({ [currencies.food]: -1 }),
-        hungerTransaction: Map({ [currencies.hunger]: 1 })
+    static eat() {
+        return {
+            inventory: Map({ [currencies.food]: -1 }),
+            stats: Map({ [currencies.hunger]: 1 })
+        };
+    }
+
+    static sleep() {
+        return {
+            condition: { sleeping: true }
+        };
     }
 }
 
-export default { scroungeEvent, eatEvent };
+function doEvent(event) {
+    return Events[event]();
+}
+
+export default doEvent;

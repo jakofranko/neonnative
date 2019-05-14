@@ -1,40 +1,43 @@
 import React from 'react';
-import events from './events';
+import Action from './action';
+import doEvent from './events';
 import currencies from './currencies';
 
 class Actions extends React.Component {
     constructor(props) {
         super(props);
 
-        this.scrounge = this.scrounge.bind(this);
-        this.eat = this.eat.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+
+        this.actionList = [
+            {
+                name: 'sleep',
+                condition: () => true
+            },
+            {
+                name: 'scrounge',
+                condition: () => true
+            },
+            {
+                name: 'eat',
+                condition: () => this.props.inventory.get(currencies.food) && this.props.inventory.get(currencies.food) > 0
+            }
+        ];
     }
 
-    scrounge(e) {
+    handleClick(e) {
         e.preventDefault();
-        const scroungingHaul = events.scroungeEvent();
-        this.props.updateInventory([scroungingHaul]);
-    }
-
-    eat(e) {
-        e.preventDefault();
-        const { hungerTransaction, foodTransaction } = events.eatEvent();
-        this.props.updateInventory([foodTransaction]);
-        this.props.updateStats([hungerTransaction]);
+        const { inventory, stats, condition } = doEvent(e.currentTarget.value);
+        this.props.updateInventory([inventory]);
+        this.props.updateStats([stats])
+        this.props.updateCondition(condition);
     }
 
     render() {
-        const hasFood = this.props.inventory.get(currencies.food) && this.props.inventory.get(currencies.food) > 0;
+        const actions = this.actionList.map(action => <Action key={action.name} name={action.name} value={action.name} action={this.handleClick} condition={action.condition} sleeping={this.props.sleeping} />)
         return (
             <div className="actions">
-                <button onClick={this.scrounge} disabled={this.props.sleeping ? 'disabled' : null}>Scrounge</button>
-                <button onClick={this.props.goToSleep} disabled={this.props.sleeping ? 'disabled' : null}>Go to Sleep</button>
-
-                {
-                    hasFood ?
-                    <button onClick={this.eat} disabled={this.props.sleeping ? 'disabled' : null}>Eat {currencies.food}: {this.props.inventory.get(currencies.food)}</button>
-                    : null
-                }
+                {actions}
             </div>
         );
     }

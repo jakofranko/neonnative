@@ -31,8 +31,8 @@ class App extends React.Component {
         this.update = this.update.bind(this);
         this.updateStats = this.updateStats.bind(this);
         this.updateInventory = this.updateInventory.bind(this);
+        this.updateCondition = this.updateCondition.bind(this);
         this.getItems = this.getItems.bind(this);
-        this.goToSleep = this.goToSleep.bind(this);
 
         this.loopId = setInterval(this.update, 50);
     }
@@ -53,11 +53,10 @@ class App extends React.Component {
         });
     }
 
-    goToSleep(e) {
-        e.preventDefault();
+    updateCondition(condition = {}) {
         this.setState(currentState => {
             return {
-                condition: Object.assign(currentState.condition, { sleeping: true })
+                condition: Object.assign(currentState.condition, condition)
             };
         });
     }
@@ -90,7 +89,7 @@ class App extends React.Component {
                             inventory={this.state.inventory}
                             updateInventory={this.updateInventory}
                             updateStats={this.updateStats}
-                            goToSleep={this.goToSleep}
+                            updateCondition={this.updateCondition}
                             sleeping={this.state.condition.sleeping} />
                     </div>
                 }
