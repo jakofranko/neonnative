@@ -7,6 +7,7 @@ import processRules from './rules';
 
 import Stats from './stats';
 import Actions from './actions';
+import Inventory from './inventory';
 
 class App extends React.Component {
     constructor(props) {
@@ -91,6 +92,7 @@ class App extends React.Component {
                             updateStats={this.updateStats}
                             updateCondition={this.updateCondition}
                             sleeping={this.state.condition.sleeping} />
+                        <Inventory inventory={this.state.inventory} />
                     </div>
                 }
             </div>
