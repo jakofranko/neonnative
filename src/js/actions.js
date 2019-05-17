@@ -27,10 +27,11 @@ class Actions extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        const { inventory, stats, condition } = doEvent(e.currentTarget.value);
+        const { inventory, stats, condition, messages } = doEvent(e.currentTarget.value, this.props.stats, this.props.inventory);
         this.props.updateInventory([inventory]);
         this.props.updateStats([stats])
         this.props.updateCondition(condition);
+        this.props.updateMessages(messages);
     }
 
     render() {

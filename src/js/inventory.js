@@ -10,7 +10,7 @@ class Inventory extends React.Component {
         const invKeys = this.props.inventory.keys();
         let inventory = [];
         for (let k of invKeys)
-            inventory.push((<span>{k}: {this.props.inventory.get(k)}</span>));
+            inventory.push((<p key={k}>{k}: {this.props.inventory.get(k)}</p>));
 
         return (
             <div className="inventory">

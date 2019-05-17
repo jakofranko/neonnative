@@ -8,6 +8,7 @@ import processRules from './rules';
 import Stats from './stats';
 import Actions from './actions';
 import Inventory from './inventory';
+import Dialog from './dialog';
 
 class App extends React.Component {
     constructor(props) {
@@ -26,6 +27,7 @@ class App extends React.Component {
             condition: {
                 sleeping: false
             },
+            messages: [],
             lost: false
         }
 
@@ -33,18 +35,22 @@ class App extends React.Component {
         this.updateStats = this.updateStats.bind(this);
         this.updateInventory = this.updateInventory.bind(this);
         this.updateCondition = this.updateCondition.bind(this);
+        this.updateMessages = this.updateMessages.bind(this);
         this.getItems = this.getItems.bind(this);
 
         this.loopId = setInterval(this.update, 50);
     }
 
     update() {
-        let { upkeep, condition, lost } = processRules(this.state);
+        let { upkeep, condition, messages, lost } = processRules(this.state);
 
-        this.setState({
-            stats: sum(this.state.stats, upkeep),
-            condition,
-            lost
+        this.setState(currentState => {
+            return {
+                stats: sum(currentState.stats, upkeep),
+                condition,
+                messages: currentState.messages.concat(messages),
+                lost
+            }
         });
     }
 
@@ -74,27 +80,37 @@ class App extends React.Component {
         });
     }
 
+    updateMessages(messages) {
+        this.setState(currentState => {
+            return {
+                messages: currentState.messages.concat(messages)
+            }
+        })
+    }
+
     render() {
         const lost = this.state.lost;
         if (lost) clearInterval(this.loopId);
 
         return (
             <div>
-                {lost
-                    ? <h1>YOU LOSE</h1>
-                    :
-                    <div>
-                        <Stats stats={this.state.stats} />
-                        <Actions
-                            stats={this.state.stats}
-                            inventory={this.state.inventory}
-                            updateInventory={this.updateInventory}
-                            updateStats={this.updateStats}
-                            updateCondition={this.updateCondition}
-                            sleeping={this.state.condition.sleeping} />
-                        <Inventory inventory={this.state.inventory} />
-                    </div>
-                }
+                    {lost ?
+                        <h1>YOU LOSE</h1>
+                        :
+                        <div>
+                            <Stats stats={this.state.stats} />
+                            <Actions
+                                stats={this.state.stats}
+                                inventory={this.state.inventory}
+                                updateInventory={this.updateInventory}
+                                updateStats={this.updateStats}
+                                updateCondition={this.updateCondition}
+                                updateMessages={this.updateMessages}
+                                sleeping={this.state.condition.sleeping} />
+                            <Inventory inventory={this.state.inventory} />
+                        </div>
+                    }
+                    <Dialog messages={this.state.messages} />
             </div>
         );
     }
