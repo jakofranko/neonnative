@@ -2,13 +2,13 @@ import React from 'react';
 import { hot } from "react-hot-loader";
 import { sum } from 'merchant.js';
 import { Map } from "immutable";
-import currencies from './currencies';
-import processRules from './rules';
+import currencies from './utils/currencies';
+import processRules from './utils/rules';
 
-import Stats from './stats';
-import Actions from './actions';
-import Inventory from './inventory';
-import Dialog from './dialog';
+import Stats from './components/stats';
+import Actions from './components/actions';
+import Inventory from './components/inventory';
+import Dialog from './components/dialog';
 
 class App extends React.Component {
     constructor(props) {

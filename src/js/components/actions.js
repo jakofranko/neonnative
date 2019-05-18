@@ -1,7 +1,7 @@
 import React from 'react';
 import Action from './action';
-import doEvent from './events';
-import currencies from './currencies';
+import doEvent from '../utils/events';
+import currencies from '../utils/currencies';
 
 class Actions extends React.Component {
     constructor(props) {

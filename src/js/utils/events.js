@@ -1,24 +1,27 @@
 import { Map } from 'immutable';
 import currencies from './currencies';
+import { weightedGenerator } from './random';
 
 class Events {
     static scrounge() {
+        const foodMessages = weightedGenerator(['You find a scrap of food.', 'You manage to aquire a decent meal.']);
+        const creditMessages = weightedGenerator(['You find some change on the ground', 'You find a credit that somebody dropped.', 'You find a credit chit in the gutter. Lucky. It had some money on it.'])
+
         let messages = [];
         let foodAmt = 0;
         let creditAmt = 0;
-        if (Math.random() > 0.5) {
-            foodAmt++;
-            messages.push('You find a scrap of food.');
-        }
-        if (Math.random() > 0.7) {
-            foodAmt++;
-            messages.push('You manage to aquire a decent meal.');
-        }
-        if (Math.random() > 0.9) {
-            creditAmt++;
-            messages.push('You find a credit that somebody dropped.');
-        }
 
+        if (Math.random() > 0.5)
+            foodAmt++;
+        if (Math.random() > 0.7)
+            foodAmt++;
+        if (Math.random() > 0.9)
+            creditAmt++;
+
+        if (foodAmt > 0)
+            messages.push(foodMessages());
+        if (creditAmt > 0)
+            messages.push(creditMessages());
         return {
             inventory: Map({
                 [currencies.food]: foodAmt,
@@ -30,11 +33,9 @@ class Events {
     }
 
     static eat(stats, inventory) {
-        let messages = [];
-        if (Math.random() > 0.6)
-            messages.push('You eat a morsel of food.');
-        else if (Math.random() > 0.9)
-            messages.push('You try to quell the rumbling of yoru stomach.');
+        const eatMessages = weightedGenerator(['You eat a morsel of food.', 'You try to quell the rumbling of your stomach.']);
+        let messages = [eatMessages()];
+
         return {
             inventory: Map({ [currencies.food]: -1 }),
             stats: Map({ [currencies.hunger]: stats.get(currencies.hunger) < 10 ? 1 : 0 }),
