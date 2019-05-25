@@ -1,14 +1,18 @@
 import React from 'react';
 import { hot } from "react-hot-loader";
-import { sum } from 'merchant.js';
+import { effects, sum } from 'merchant.js';
 import { Map } from "immutable";
 import currencies from './utils/currencies';
+import items from './utils/items';
 import processRules from './utils/rules';
 
 import Stats from './components/stats';
 import Actions from './components/actions';
 import Inventory from './components/inventory';
 import Dialog from './components/dialog';
+import Shop from './components/shop';
+
+const itemsArr = Object.keys(items).map(itemName => items[itemName]);
 
 class App extends React.Component {
     constructor(props) {
@@ -45,8 +49,11 @@ class App extends React.Component {
         let { upkeep, condition, messages, lost } = processRules(this.state);
 
         this.setState(currentState => {
+            const inventoryEffects = effects(itemsArr, currentState.inventory);
+
             return {
                 stats: sum(currentState.stats, upkeep),
+                inventory: sum(currentState.inventory, inventoryEffects),
                 condition,
                 messages: currentState.messages.concat(messages),
                 lost
@@ -93,11 +100,11 @@ class App extends React.Component {
         if (lost) clearInterval(this.loopId);
 
         return (
-            <div>
+            <div className="app">
                     {lost ?
                         <h1>YOU LOSE</h1>
                         :
-                        <div>
+                        <div className="dashboard">
                             <Stats stats={this.state.stats} />
                             <Actions
                                 stats={this.state.stats}
@@ -110,6 +117,7 @@ class App extends React.Component {
                             <Inventory inventory={this.state.inventory} />
                         </div>
                     }
+                    <Shop inventory={this.state.inventory} updateInventory={this.updateInventory} />
                     <Dialog messages={this.state.messages} />
             </div>
         );
