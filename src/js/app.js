@@ -117,7 +117,7 @@ class App extends React.Component {
                             <Inventory inventory={this.state.inventory} />
                         </div>
                     }
-                    <Shop inventory={this.state.inventory} updateInventory={this.updateInventory} />
+                    <Shop inventory={this.state.inventory} updateInventory={this.updateInventory} updateMessages={this.updateMessages} />
                     <Dialog messages={this.state.messages} />
             </div>
         );
