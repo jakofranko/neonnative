@@ -2,10 +2,13 @@ import React from 'react';
 import { hot } from "react-hot-loader";
 import { effects, sum } from 'merchant.js';
 import { Map } from "immutable";
+
+import startingAttributes from './utils/starting-attributes';
 import currencies from './utils/currencies';
 import items from './utils/items';
 import processRules from './utils/rules';
 
+import Player from './components/player';
 import Stats from './components/stats';
 import Actions from './components/actions';
 import Inventory from './components/inventory';
@@ -28,6 +31,7 @@ class App extends React.Component {
                 hungerMin: -10,
             }),
             inventory: Map(), // wallet
+            player: Map(startingAttributes),    // wallet
             condition: {
                 sleeping: false
             },
@@ -35,23 +39,23 @@ class App extends React.Component {
             lost: false
         }
 
-        this.update = this.update.bind(this);
+        this.tick = this.tick.bind(this);
         this.updateStats = this.updateStats.bind(this);
         this.updateInventory = this.updateInventory.bind(this);
         this.updateCondition = this.updateCondition.bind(this);
         this.updateMessages = this.updateMessages.bind(this);
-        this.getItems = this.getItems.bind(this);
 
-        this.loopId = setInterval(this.update, 50);
+        this.loopId = setInterval(this.tick, 50);
     }
 
-    update() {
+    tick() {
         let { upkeep, condition, messages, lost } = processRules(this.state);
 
         this.setState(currentState => {
             const inventoryEffects = effects(itemsArr, currentState.inventory);
 
             return {
+                player: sum(currentState.player, upkeep),
                 stats: sum(currentState.stats, upkeep),
                 inventory: sum(currentState.inventory, inventoryEffects),
                 condition,
@@ -61,9 +65,11 @@ class App extends React.Component {
         });
     }
 
-    getItems() {
-        return this.state.wallet.filter(item => {
-            console.log(item);
+    updatePlayer(ledgers) {
+        const player = sum(this.state.player, ...ledgers);
+
+        this.setState({
+            player
         });
     }
 
@@ -77,6 +83,7 @@ class App extends React.Component {
 
     updateStats(ledgers) {
         this.setState({
+            player: sum(this.state.player, ...ledgers),
             stats: sum(this.state.stats, ...ledgers)
         });
     }
@@ -112,11 +119,14 @@ class App extends React.Component {
                                 updateInventory={this.updateInventory}
                                 updateStats={this.updateStats}
                                 updateCondition={this.updateCondition}
+                                player={this.state.player}
+                                updatePlayer={this.updatePlayer}
                                 updateMessages={this.updateMessages}
                                 sleeping={this.state.condition.sleeping} />
                             <Inventory inventory={this.state.inventory} />
                         </div>
                     }
+                    <Player player={this.state.player} />
                     <Shop inventory={this.state.inventory} updateInventory={this.updateInventory} updateMessages={this.updateMessages} />
                     <Dialog messages={this.state.messages} />
             </div>
