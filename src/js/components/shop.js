@@ -33,7 +33,7 @@ class Shop extends React.Component {
                 return {
                     items: Object.assign(items, { [itemName]: item })
                 };
-            }, () => this.props.updateInventory([cost, transaction]));
+            }, () => this.props.updatePlayer([cost, transaction]));
         } else {
             console.log("Cannot purchase:")
             console.log(item);

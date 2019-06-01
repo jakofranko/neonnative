@@ -5,7 +5,7 @@ const foodEater = {
     type: 'Food Eater',
     description: 'You must sustain yourself with food.',
     condition: function() { return false },
-    effects: function() {
+    effect: function() {
         return Map({ [currencies.hunger]: -0.01 })
     },
     qty: Infinity
@@ -16,13 +16,13 @@ const sleeper = {
     description: 'You must must rest occasionally in order to act.',
     condition: function() { return false },
     cost: function(state) {
-        const sleeping = state.get(sleeping.type);
-        if (sleeping && sleeping > 0)
+        const s = state.get(sleeping.type);
+        if (s && s > 0)
             return Map({ [sleeping.type]: -1 })
 
         return Map();
     },
-    effects: function() {
+    effect: function() {
         return Map({ [currencies.exhaustion]: -0.01 })
     },
     qty: Infinity
@@ -33,14 +33,14 @@ const sleeping = {
     description: 'You are asleep.',
     condition: function() { return false },
     cost: function(state) {
-        const sleeper = state.get(sleeper.type);
-        if (sleeper && sleeper > 0)
+        const s = state.get(sleeper.type);
+        if (s && s > 0)
             return Map({ [sleeper.type]: -1 })
 
         return Map();
     },
-    effects: function() {
-        return Map({ [currencies.exhaustion]: 1 })
+    effect: function() {
+        return Map({ [currencies.exhaustion]: 0.1 })
     },
     qty: Infinity
 }
