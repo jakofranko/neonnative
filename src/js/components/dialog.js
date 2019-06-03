@@ -9,7 +9,7 @@ class Dialog extends React.Component {
     render() {
         const messages = this.props.messages.map((message, i) => <p key={i}>{message}</p>);
         return (
-            <div className="dialog">
+            <div className="dialog c6 ph2">
                 {messages.reverse()}
             </div>
         );

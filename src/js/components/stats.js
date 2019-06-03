@@ -13,7 +13,7 @@ class Stats extends React.Component {
         });
 
         return (
-            <div className="stats">
+            <div className="stats mb4">
                 <table>
                     <tbody>
                         {stats}

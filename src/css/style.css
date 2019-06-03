@@ -1,0 +1,29 @@
+body {
+    background-color: #111;
+}
+
+h1, h2, h3, h4, h5, p, button, span, div {
+    font-family: monospace;
+    color: #83ba23;
+    text-shadow: #88ba87 0 0 5px;
+}
+
+hr {
+    border-color: #83ba23;
+    box-shadow:  #88ba87 0 0 5px;
+}
+
+button {
+    background-color: transparent;
+    border-color: #83ba23;
+}
+
+button:focus {
+    outline-color: #88ba87;
+    box-shadow:  #88ba87 0 0 5px;
+}
+
+button:disabled {
+    color: #666;
+    border-color: #666;
+}

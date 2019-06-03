@@ -37,7 +37,7 @@ class Actions extends React.Component {
     render() {
         const actions = this.actionList.map(action => <Action key={action.name} name={action.name} value={action.name} action={this.handleClick} condition={action.condition} sleeping={this.props.player.get(items.sleeping.type)} />)
         return (
-            <div className="actions">
+            <div className="actions mb4">
                 {actions}
             </div>
         );
