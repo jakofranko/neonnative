@@ -27,7 +27,7 @@ class App extends React.Component {
         this.updatePlayer = this.updatePlayer.bind(this);
         this.updateMessages = this.updateMessages.bind(this);
 
-        this.loopId = setInterval(this.tick, 5000);
+        this.loopId = setInterval(this.tick, 50);
     }
 
     tick() {
@@ -62,9 +62,9 @@ class App extends React.Component {
         if (lost) clearInterval(this.loopId);
 
         return (
-            <div className="app m4 r">
+            <div className="app p4 r">
                     {lost ?
-                        <h1>YOU LOSE</h1>
+                        <h1 className="mb4">YOU LOSE</h1>
                         :
                         <Player
                             player={this.state.player}

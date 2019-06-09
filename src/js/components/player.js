@@ -31,7 +31,7 @@ class Player extends React.Component {
                         <Inventory inventory={items} />
                     </div>
                 </div>
-                <hr className="mv4 wf"/>
+                <hr className="mv4"/>
                 <Actions
                     player={this.props.player}
                     updatePlayer={this.props.updatePlayer}
