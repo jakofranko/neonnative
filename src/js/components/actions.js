@@ -1,6 +1,6 @@
 import React from 'react';
 import Action from './action';
-import doEvent from '../utils/events';
+import doAction from '../utils/actions';
 import currencies from '../utils/currencies';
 import items from '../utils/items';
 
@@ -28,7 +28,7 @@ class Actions extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        const { newPlayer, condition, messages } = doEvent(e.currentTarget.value, this.props.player);
+        const { newPlayer, condition, messages } = doAction(e.currentTarget.value, this.props.player);
 
         this.props.updatePlayer([newPlayer]);
         this.props.updateMessages(messages);

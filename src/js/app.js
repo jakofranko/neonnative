@@ -7,6 +7,7 @@ import startingAttributes from './utils/starting-attributes';
 import currencies from './utils/currencies';
 import items from './utils/items';
 import processRules from './utils/rules';
+import processEvents from './utils/events';
 
 import Player from './components/player';
 import Dialog from './components/dialog';
@@ -31,13 +32,14 @@ class App extends React.Component {
     }
 
     tick() {
-        let { updatedPlayer, condition, messages, lost } = processRules(this.state);
+        const { updatedPlayer, messages, lost } = processRules(this.state);
+        const { ledgers, eventMessages, eventLost } = processEvents(this.state);
 
         this.setState(currentState => {
             const allEffects = effects(itemsArr, updatedPlayer);
             return {
-                player: sum(updatedPlayer, allEffects),
-                messages: currentState.messages.concat(messages),
+                player: sum(updatedPlayer, allEffects, ...ledgers),
+                messages: currentState.messages.concat(messages, eventMessages),
                 lost
             }
         });
