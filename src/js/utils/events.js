@@ -5,26 +5,34 @@ import items from './items';
 
 const events = [
     {
-        name: 'Test Event',
+        name: 'Sleep Robbers',
         chance: 0.05,
-        condition: (state) => Math.random() > 0.5,
+        condition: (state) => {
+            const hasShelter = state.player.get(items.wellfareShelter.type) || state.player.get(items.flat.type);
+            const isSleeping = state.player.get(items.sleeping.type);
+            const exhaustion = state.player.get(currencies.exhaustion);
+            let chance = 0;
+
+            if (exhaustion < 0)
+                chance += 0.3;
+            if (exhaustion < state.player.get('exhaustMax') / 2) {
+                debugger;
+                chance += 0.1;
+            }
+            if (hasShelter)
+                chance -= 0.2
+
+            if (isSleeping) {
+                return Math.random() < chance;
+            } else {
+                return false;
+            }
+        },
         effect: function(state) {
-            const messages = ['This is a test event message'];
-            const ledgers = [Map({ [currencies.credits]: 1 })];
+            const messages = ["While you are sleeping, robbers take some of your possessions."];
+            const ledgers = [Map({ [currencies.credits]: Math.floor((state.player.get(currencies.credits) / 2) * -1) })];
             const lost = false;
             return { messages, ledgers, lost };
-        }
-    },
-    {
-        name: 'Only with Shelter',
-        chance: 0.01,
-        condition: (state) => state.player.get(items.wellfareShelter.type),
-        effect: function() {
-            return {
-                ledgers: [],
-                messages: ['You have a shelter!'],
-                lost: false
-            }
         }
     }
 ];

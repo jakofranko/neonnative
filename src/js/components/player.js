@@ -39,7 +39,7 @@ class Player extends React.Component {
                 <Shop
                     inventory={items}
                     updatePlayer={this.props.updatePlayer}
-                    updateMessages={this.updateMessages} />
+                    updateMessages={this.props.updateMessages} />
             </div>
         );
     }
