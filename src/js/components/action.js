@@ -1,4 +1,5 @@
 import React from 'react';
+import { startCase } from 'lodash';
 
 class Action extends React.Component {
     constructor(props) {
@@ -8,11 +9,24 @@ class Action extends React.Component {
 
     render() {
         const show = this.props.condition();
+        const {
+            value,
+            action,
+            sleeping,
+            name
+        } = this.props;
+
         return (
             <span className="action">
                 {
-                    show ?
-                    <button className="ba p2 mr3 mv3" value={this.props.value} onClick={this.props.action} disabled={this.props.sleeping ? 'disabled' : null}>{this.props.name}</button>
+                    show
+                    ? <button
+                            className="ba p2 mr3 mv3"
+                            value={value}
+                            onClick={action}
+                            disabled={sleeping ? 'disabled' : null}>
+                            {startCase(name)}
+                        </button>
                     : null
                 }
             </span>

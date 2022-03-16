@@ -40,7 +40,10 @@ class Actions {
     }
 
     static eat(player) {
-        const eatMessages = weightedGenerator(['You eat a morsel of food.', 'You try to quell the rumbling of your stomach.']);
+        const eatMessages = weightedGenerator([
+            'You eat a morsel of food.',
+            'You try to quell the rumbling of your stomach.'
+        ]);
         let messages = [eatMessages()];
 
         return {
@@ -55,9 +58,30 @@ class Actions {
     static sleep(player) {
         return {
             newPlayer: add(items.sleeping, buy(items.sleeping, Map(), player)),
-            condition: { sleeping: true },
             messages: ['You fall asleep.']
         };
+    }
+
+    static sellFood(player) {
+        const sellFoodMessages = weightedGenerator([
+            'You manage to trade a bit of food for some credits.',
+            'You find an eager buyer for a few morsels you don\'t need right now.'
+        ]);
+        let messages = [sellFoodMessages()];
+
+        // The amount of food sold should never be negative,
+        const foodSold = Math.min(
+            player.get(currencies.food),
+            Math.ceil(Math.random() * 10) * -1
+        );
+        const creditsEarned = Math.ceil(Math.random() * 5);
+        return {
+            newPlayer: Map({
+                [currencies.food]: foodSold,
+                [currencies.credits]: creditsEarned
+            }),
+            messages
+        }
     }
 }
 
