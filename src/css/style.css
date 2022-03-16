@@ -36,4 +36,6 @@ button:active {
 button:disabled {
     color: #666;
     border-color: #666;
+    box-shadow: none;
+    text-shadow: none;
 }
