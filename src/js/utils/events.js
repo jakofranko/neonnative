@@ -8,19 +8,20 @@ const events = [
         name: 'Sleep Robbers',
         chance: 0.05,
         condition: (state) => {
-            const hasShelter = state.player.get(items.wellfareShelter.type) || state.player.get(items.flat.type);
+            const hasShelter = state.player.get(items.wellfareShelter.type);
+            const hasFlat = state.player.get(items.flat.type);
             const isSleeping = state.player.get(items.sleeping.type);
             const exhaustion = state.player.get(currencies.exhaustion);
             let chance = 0;
 
             if (exhaustion < 0)
                 chance += 0.3;
-            if (exhaustion < state.player.get('exhaustMax') / 2) {
-                debugger;
+            if (exhaustion < state.player.get('exhaustMax') / 2)
                 chance += 0.1;
-            }
             if (hasShelter)
                 chance -= 0.2
+            if (hasFlat)
+                chance -= 0.7
 
             if (isSleeping) {
                 return Math.random() < chance;
