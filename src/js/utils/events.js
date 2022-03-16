@@ -3,6 +3,8 @@ import { Map } from 'immutable';
 import currencies from './currencies';
 import items from './items';
 
+const currencyNames = Object.keys(currencies);
+
 const events = [
     {
         name: 'Sleep Robbers',
@@ -31,7 +33,18 @@ const events = [
         },
         effect: function(state) {
             const messages = ["While you are sleeping, robbers take some of your possessions."];
-            const ledgers = [Map({ [currencies.credits]: Math.floor((state.player.get(currencies.credits) / 2) * -1) })];
+
+            // If the player has more than 1 of a kind of currency, it can be stolen.
+            const ledgers = currencyNames.map(currency => {
+                const playerCurrrency = state.player.get(currency);
+                if (playerCurrrency && playerCurrrency > 1) {
+                    return Map({
+                        [currency]: Math.floor((playerCurrrency / 2) * -1)
+                    });
+                }
+
+                return Map({});
+            })
             const lost = false;
             return { messages, ledgers, lost };
         }

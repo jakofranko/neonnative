@@ -14,6 +14,7 @@ const statsFilter = [
 const itemsFilter = [
     currencies.food,
     currencies.credits,
+    currencies.mellow,
     items.wellfareShelter.type,
     items.flat.type
 ];

@@ -24,10 +24,7 @@ class Actions extends React.Component {
             },
             {
                 name: 'eat',
-                condition: () => {
-                    debugger;
-                    return this.props.player.get(currencies.food) && this.props.player.get(currencies.food) > 0
-                }
+                condition: () => this.props.player.get(currencies.food) && this.props.player.get(currencies.food) > 0
             },
             {
                 name: 'sellFood',
