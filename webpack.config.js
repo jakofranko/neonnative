@@ -1,6 +1,9 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const publicPath = 'public/';
+const buildPath = 'dist/';
+
 module.exports = function(env, args) {
     return {
         mode: args.mode || 'development',
@@ -22,14 +25,14 @@ module.exports = function(env, args) {
             extensions: ['*', '.js', '.jsx']
         },
         output: {
-            path: path.resolve(__dirname, "dist/"),
+            path: path.resolve(__dirname, buildPath),
             publicPath: "/dist/",
             filename: "bundle.js"
         },
         devServer: {
-            contentBase: path.join(__dirname, "public/"),
+            contentBase: path.join(__dirname, publicPath),
             port: 3000,
-            publicPath: "http://localhost:3000/dist/",
+            publicPath: "http://localhost:3000/" + buildPath,
             hotOnly: true
         },
         plugins: [
