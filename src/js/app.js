@@ -4,7 +4,6 @@ import { effects, sum } from 'merchant.js';
 import { Map } from "immutable";
 
 import startingAttributes from './utils/starting-attributes';
-import currencies from './utils/currencies';
 import items from './utils/items';
 import processRules from './utils/rules';
 import processEvents from './utils/events';
@@ -33,7 +32,7 @@ class App extends React.Component {
 
     tick() {
         const { updatedPlayer, messages, lost } = processRules(this.state);
-        const { ledgers, eventMessages, eventLost } = processEvents(this.state);
+        const { ledgers, eventMessages } = processEvents(this.state);
 
         this.setState(currentState => {
             const allEffects = effects(itemsArr, updatedPlayer);
