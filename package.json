@@ -43,6 +43,8 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "eslint": "^8.11.0",
+    "eslint-plugin-react": "^7.29.4",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
   }
