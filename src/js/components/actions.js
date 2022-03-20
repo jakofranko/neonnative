@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Action from './action';
 import doAction from '../utils/actions';
 import currencies from '../utils/currencies';
@@ -29,6 +30,10 @@ class Actions extends React.Component {
             {
                 name: 'sellFood',
                 condition: () => this.props.player.get(currencies.food) && this.props.player.get(currencies.food) > 10
+            },
+            {
+                name: 'takeMellow',
+                condition: () => this.props.player.get(currencies.mellow) && this.props.player.get(currencies.mellow) > 0
             }
         ];
     }
@@ -37,7 +42,7 @@ class Actions extends React.Component {
         e.preventDefault();
         // doAction attempts to perform the action matching the value of the button clicked,
         // which is equivelent to the `name` of the action in the actionList.
-        const { newPlayer, condition, messages } = doAction(e.currentTarget.value, this.props.player);
+        const { newPlayer, messages } = doAction(e.currentTarget.value, this.props.player);
 
         this.props.updatePlayer([newPlayer]);
         this.props.updateMessages(messages);
@@ -60,6 +65,12 @@ class Actions extends React.Component {
             </div>
         );
     }
+}
+
+Actions.propTypes = {
+    player: PropTypes.object,
+    updatePlayer: PropTypes.func,
+    updateMessages: PropTypes.func,
 }
 
 export default Actions

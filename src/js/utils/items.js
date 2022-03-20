@@ -78,4 +78,18 @@ const flat = {
     qty: 1
 };
 
-export default { foodEater, sleeper, sleeping, wellfareShelter, flat };
+const onMellow = {
+    type: 'On Mellow',
+    description: 'You are under the effects of the drug Mellow.',
+    condition: function() { return false }, // don't show in the shop
+    cost: function() { return Map({ [currencies.mellow]: -1 }) }, // might need to check to see if the player has mellow...
+    effect: function() {
+        return Map({
+            [currencies.exhaustion]: -0.02,
+            [currencies.hunger]: 0.001
+        });
+    },
+    qty: Infinity
+};
+
+export default { foodEater, sleeper, sleeping, wellfareShelter, flat, onMellow };

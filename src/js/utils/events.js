@@ -3,7 +3,7 @@ import { Map } from 'immutable';
 import currencies from './currencies';
 import items from './items';
 
-const currencyNames = Object.keys(currencies);
+const currencyNames = Object.values(currencies);
 
 const events = [
     {
@@ -35,6 +35,7 @@ const events = [
             const messages = ["While you are sleeping, robbers take some of your possessions."];
 
             // If the player has more than 1 of a kind of currency, it can be stolen.
+            debugger;
             const ledgers = currencyNames.map(currency => {
                 const playerCurrrency = state.player.get(currency);
                 if (playerCurrrency && playerCurrrency > 1) {

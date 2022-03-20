@@ -90,6 +90,13 @@ class Actions {
             messages
         }
     }
+
+    static takeMellow(player) {
+        return {
+            newPlayer: add(items.onMellow, buy(items.onMellow, Map(), player)),
+            messages: ['You knock back a bit of Mellow.']
+        };
+    }
 }
 
 function doAction(event, player) {
