@@ -69,6 +69,16 @@ class Actions {
         };
     }
 
+    static buyFood(player) {
+        return {
+            newPlayer: Map({
+                [currencies.food]: 10,
+                [currencies.credits]: -5
+            }),
+            messages: ['You buy some food']
+        }
+    }
+
     static sellFood(player) {
         const sellFoodMessages = weightedGenerator([
             'You manage to trade a bit of food for some credits.',
@@ -85,6 +95,23 @@ class Actions {
         return {
             newPlayer: Map({
                 [currencies.food]: foodSold,
+                [currencies.credits]: creditsEarned
+            }),
+            messages
+        }
+    }
+
+    static sellMellow(player) {
+        const sellMellowMessages = weightedGenerator([
+            'You manage to trade some Mellow for credits.',
+            'You find someone happy to buy some of your Mellow'
+        ]);
+        let messages = [sellMellowMessages()];
+
+        const creditsEarned = Math.ceil(Math.random() * 10);
+        return {
+            newPlayer: Map({
+                [currencies.mellow]: -1,
                 [currencies.credits]: creditsEarned
             }),
             messages

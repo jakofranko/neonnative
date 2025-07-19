@@ -1,9 +1,9 @@
 import { Map } from 'immutable';
 
-import currencies from './currencies';
+import currencies, { materialCurrencies } from './currencies';
 import items from './items';
 
-const currencyNames = Object.values(currencies);
+const currencyNames = Object.values(materialCurrencies);
 
 const events = [
     {

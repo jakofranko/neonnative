@@ -15,7 +15,7 @@ class ShopItem extends React.Component {
         const available = this.state.item.qty > 0 && this.state.item.condition(this.props.inventory);
 
         return available ? (
-            <div className="shop-item ba p3">
+            <div className="shop-item ba p3 mb3">
                 <p className="ac">
                     {this.state.item.type}
                     <br/>

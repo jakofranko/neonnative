@@ -49,7 +49,7 @@ const wellfareShelter = {
     type: 'Wellfare Shelter',
     description: "It'll get you out of the rain even if the sheets aren't always clean, and you'll be less of a target for the roving gangs besides. There is a nominal rent fee.",
     cost: function() {
-        return Map({ [currencies.credits]: -5 });
+        return Map({ [currencies.credits]: -10 });
     },
     effect: function() {
         return Map({ [currencies.credits]: -0.0005 });

@@ -28,8 +28,16 @@ class Actions extends React.Component {
                 condition: () => this.props.player.get(currencies.food) && this.props.player.get(currencies.food) > 0
             },
             {
+                name: 'buyFood',
+                condition: () => this.props.player.get(currencies.credits) && this.props.player.get(currencies.credits) >= 5
+            },
+            {
                 name: 'sellFood',
                 condition: () => this.props.player.get(currencies.food) && this.props.player.get(currencies.food) > 10
+            },
+            {
+                name: 'sellMellow',
+                condition: () => this.props.player.get(currencies.mellow) && this.props.player.get(currencies.mellow) > 0
             },
             {
                 name: 'takeMellow',
