@@ -26,15 +26,15 @@
   },
   "homepage": "https://github.com/jakofranko/neonnative#readme",
   "dependencies": {
-    "css-loader": "^2.1.0",
+    "css-loader": "^6.7.3",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.21",
     "macian": "^1.0.2",
     "merchant.js": "^1.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-hot-loader": "^4.7.1",
-    "style-loader": "^0.23.1",
+    "react-hot-loader": "^4.13.1",
+    "style-loader": "^3.3.1",
     "webpack-dev-server": "^3.2.1"
   },
   "devDependencies": {
@@ -42,10 +42,10 @@
     "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.3.0",
     "eslint": "^8.11.0",
     "eslint-plugin-react": "^7.29.4",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
